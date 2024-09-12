@@ -4,9 +4,7 @@ const fs = require('fs').promises
 
 let mensagem = "Bem vindo!"
 
-let meta = { value: "Beba água", checked: false }
-
-let metas = [ meta ]
+let metas
 
 const carregarMetas = async () => {
 
@@ -24,7 +22,11 @@ const carregarMetas = async () => {
 
 }
 
+const salvarMetas = async () => {
 
+    await fs.writeFile('metas.json', JSON.stringify(metas, null, 2))
+
+}
 
 const adicionarMeta = async () => {
 
@@ -181,6 +183,8 @@ const start = async () => {
     while(true) {
 
         mostrarMensagem()
+
+        await salvarMetas()
 
         const opcao = await select({
 
