@@ -10,11 +10,11 @@ const carregarMetas = async () => {
 
     try {
 
-        const dados = await fs.readFile('metas.json', 'utf-8')
+        const dados = await fs.readFile("metas.json", "utf-8")
 
         metas = JSON.parse(dados)
 
-    } catch (error) {
+    } catch (erro) {
 
         metas = []
 
@@ -24,7 +24,7 @@ const carregarMetas = async () => {
 
 const salvarMetas = async () => {
 
-    await fs.writeFile('metas.json', JSON.stringify(metas, null, 2))
+    await fs.writeFile("metas.json", JSON.stringify(metas, null, 2))
 
 }
 
@@ -86,6 +86,11 @@ const listarMetas = async () => {
 
 const metasRealizadas = async () => {
 
+    if (metas.length == 0) {
+        mensagem = "Não existem metas!"
+        return
+    }
+
     const realizadas = metas.filter((meta) => {
 
         return meta.checked
@@ -100,7 +105,7 @@ const metasRealizadas = async () => {
     }
 
     await select({
-        message: "Metas Realizadas" + " " + "=" + " " +realizadas.length,
+        message: "Metas Realizadas" + " " + "=" + " " + realizadas.length,
         choices: [...realizadas]
     })
 
@@ -108,9 +113,14 @@ const metasRealizadas = async () => {
 
 const metasNaoRealizadas = async () => {
 
+    if (metas.length == 0) {
+        mensagem = "Não existem metas!"
+        return
+    }
+
     const naoRealizadas = metas.filter((meta) => {
 
-        return !meta.checked
+        return meta.checked != true
 
     })
 
@@ -122,13 +132,18 @@ const metasNaoRealizadas = async () => {
     }
 
     await select({
-        message: "Metas Não Realizadas",
+        message: "Metas Não Realizadas" + abertas.length ,
         choices: [...naoRealizadas]
     })
 
 }
 
 const deletarMetas = async () => {
+
+    if(metas.length == 0) {
+        mensagem = "Não existem metas!"
+        return
+    }
 
     const metasDesmarcadas = metas.map((meta) => {
 
@@ -140,7 +155,7 @@ const deletarMetas = async () => {
 
         message: "Selecione os itens que deseja deletar",
         choices: [...metasDesmarcadas],
-        instructions: false
+        instructions: false,
 
     })
 
@@ -159,6 +174,8 @@ const deletarMetas = async () => {
 
         })
     })
+
+    mensagem = "Metas deletadas com sucesso!"
 
 }
 
@@ -242,4 +259,4 @@ const start = async () => {
 
 }
 
-start()
+start();
