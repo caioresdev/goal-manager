@@ -1,5 +1,7 @@
 const { select, input, checkbox } = require('@inquirer/prompts')
 
+let mensagem = "Bem vindo!"
+
 let meta = { value: "Beba água", checked: false }
 
 let metas = [ meta ]
@@ -10,7 +12,7 @@ const adicionarMeta = async () => {
 
     if ( meta.length == 0 ) {
 
-        console.log("A Meta deve ter pelo menos 1 caracter..")
+        mensagem = "A Meta deve ter pelo menos 1 caracter.."
         return
 
     }
@@ -18,6 +20,8 @@ const adicionarMeta = async () => {
     metas.push(
         { value: meta, checked: false }
     )
+
+    mensagem = "Meta adicionada com sucesso!"
 
 }
 
@@ -37,7 +41,7 @@ const listarMetas = async () => {
 
     if ( respostas.length == 0 ) {
 
-        console.log("Nenhuma meta selecionada")
+        mensagem = "Nenhuma meta selecionada"
         return
 
     }
@@ -54,7 +58,7 @@ const listarMetas = async () => {
 
     })
 
-    console.log("Meta(s) concluída(s):")
+    mensagem = "Meta(s) concluída(s):"
 
 }
 
@@ -68,7 +72,7 @@ const metasRealizadas = async () => {
 
     if ( realizadas.length == 0 ) {
 
-        console.log("Nenhuma meta realizada")
+        mensagem = "Nenhuma meta realizada"
         return
 
     }
@@ -90,7 +94,7 @@ const metasNaoRealizadas = async () => {
 
     if ( naoRealizadas.length == 0 ) {
 
-        console.log("Nenhuma meta não realizada:")
+        mensagem = "Nenhuma meta não realizada:"
         return
 
     }
@@ -120,7 +124,7 @@ const deletarMetas = async () => {
 
     if ( itensparaDeletar.length == 0 ) {
 
-        console.log("Nenhum item selecionado")
+        mensagem = "Nenhum item selecionado"
         return
 
     }
@@ -136,9 +140,25 @@ const deletarMetas = async () => {
 
 }
 
+const mostrarMensagem = () => {
+
+    console.clear();
+
+    if ( mensagem != "" ) {
+
+        console.log(mensagem)
+        console.log("")
+        mensagem = ""
+
+    }
+
+}
+
 const start = async () => {
 
     while(true) {
+
+        mostrarMensagem()
 
         const opcao = await select({
 
@@ -174,7 +194,6 @@ const start = async () => {
         switch(opcao) {
             case "adicionar":
                 await adicionarMeta()
-                console.log(metas)
                 break
             case "listar":
                 await listarMetas()
