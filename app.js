@@ -1,10 +1,30 @@
 const { select, input, checkbox } = require('@inquirer/prompts')
 
+const fs = require('fs').promises
+
 let mensagem = "Bem vindo!"
 
 let meta = { value: "Beba água", checked: false }
 
 let metas = [ meta ]
+
+const carregarMetas = async () => {
+
+    try {
+
+        const dados = await fs.readFile('metas.json', 'utf-8')
+
+        metas = JSON.parse(dados)
+
+    } catch (error) {
+
+        metas = []
+
+    }
+
+}
+
+
 
 const adicionarMeta = async () => {
 
@@ -155,6 +175,8 @@ const mostrarMensagem = () => {
 }
 
 const start = async () => {
+
+    carregarMetas()
 
     while(true) {
 
