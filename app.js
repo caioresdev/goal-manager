@@ -132,8 +132,7 @@ const deletarMetas = async () => {
             return meta.value != item
 
         })
-
-    }
+    })
 
 }
 
