@@ -74,8 +74,30 @@ const metasRealizadas = async () => {
     }
 
     await select({
-        message: "Metas Realizadas",
+        message: "Metas Realizadas" + " " + "=" + " " +realizadas.length,
         choices: [...realizadas]
+    })
+
+}
+
+const metasNaoRealizadas = async () => {
+
+    const naoRealizadas = metas.filter((meta) => {
+
+        return !meta.checked
+
+    })
+
+    if ( naoRealizadas.length == 0 ) {
+
+        console.log("Nenhuma meta não realizada:")
+        return
+
+    }
+
+    await select({
+        message: "Metas Não Realizadas",
+        choices: [...naoRealizadas]
     })
 
 }
@@ -101,6 +123,10 @@ const start = async () => {
                     value: "realizadas"
                 },
                 {
+                    name: "Metas Não Realizadas",
+                    value: "naoRealizadas"
+                },
+                {
                     name: "Sair",
                     value: "sair"
                 }
@@ -117,6 +143,9 @@ const start = async () => {
                 break
             case "realizadas":
                 await metasRealizadas()
+                break
+            case "naoRealizadas":
+                await metasNaoRealizadas()
                 break
             case "sair":
                 console.log("Saindo...")
